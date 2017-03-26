@@ -71,3 +71,7 @@ body {
 .btn.btn-red:hover {
   background-color: #f15656;
 }
+
+ul#todoList li {
+  list-style: none;
+}
