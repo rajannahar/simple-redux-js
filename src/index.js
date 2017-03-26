@@ -1,8 +1,8 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 
 // REDUCER - switch statement
 // takes in state and action then returns a new state
-function counterReducer(state={ count: 0 }, action) {
+function counterReducer(state = { count: 0 }, action) {
 
 	const nextState = {
 		count: state.count
@@ -26,11 +26,39 @@ function counterReducer(state={ count: 0 }, action) {
 	}
 }
 
+const logger = store => next => action => {
+	console.log("dispatching", action);
+	let result = next(action);
+	console.log("next state", store.getState());
+	return result;
+}
+
+const error = store => next => action => {
+	console.log("new action", action);
+	try {
+		next(action);
+	} catch (error) {
+		console.log("error");
+	}
+}
+
+// const logger = function(store) {
+// 	return function(next) {
+// 		return function (action) {
+// 			console.log("dispatch", action)
+// 			let result = next(action)
+// 			return result
+// 		}
+// 	}
+// }
+// This is the es5 equivalent
+
 
 // STORE - initiate store
 const store = createStore(
 	counterReducer, 
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+	applyMiddleware(logger, error), 
+	//window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 const counterEl = document.getElementById("counter");
 
