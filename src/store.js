@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
-import logger from 'redux-logger';
-// import thunk from 'redux-thunk';
+import {createLogger} from 'redux-logger';
 import promise from 'redux-promise-middleware';
+// import thunk from 'redux-thunk';
 import axios from 'axios';
 import usersReducer from './reducers/users';
 
@@ -9,9 +9,10 @@ import usersReducer from './reducers/users';
 const store = createStore(
 	usersReducer, 
 	applyMiddleware(
-		logger
-	), 
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+		createLogger(),
+        promise()
+	)//, 
+	//window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export default store;
