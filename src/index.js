@@ -1,8 +1,13 @@
 import {render} from 'react-dom';
 import React from 'react'
-import Main from './components/main';
+// import Users from './components/users';
+import Users from './containers/users';
+import {Provider} from 'react-redux';
+import UsersStore from './store';
 
 render(
-	<Main />,
+	<Provider store={UsersStore}>
+		<Users />
+	</Provider>,
 	document.getElementById('app')
 );
